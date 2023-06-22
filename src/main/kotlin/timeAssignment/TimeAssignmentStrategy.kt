@@ -19,11 +19,10 @@ abstract class TimeAssignmentStrategy(val dayDuration: Duration, requirementRepo
             .start
             .date
         var dayTimeLeft = dayDuration
-        println(currentDay)
         while (requirements.isNotEmpty()) {
             while (dayTimeLeft > Duration.ZERO) {
-                println(dayTimeLeft)
-                println(requirements.size)
+                if (requirements.map { it.exam }.any { it.timeWindow.start.date == currentDay }) break
+
                 val requirement = selectOptimalRequirement(currentDay) ?: break
                 val allottedDuration = minOf(requirement.duration, dayTimeLeft)
                 dayTimeLeft -= allottedDuration
